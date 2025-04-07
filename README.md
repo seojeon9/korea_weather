@@ -1,5 +1,7 @@
 # Korea Weather MCP Server
 
+[![smithery badge](https://smithery.ai/badge/@ohhan777/korea_weather)](https://smithery.ai/server/@ohhan777/korea_weather)
+
 본 MCP 서버는 기상청 단기 예보 조회서비스 API를 이용한 MCP 서버입니다.
 
 ## 소개
@@ -13,6 +15,14 @@ Korea Weather MCP Server는 날씨 정보를 수집하고, 이를 MCP를 통해 
 - MCP 형식의 기상 데이터 제공
 
 ## 사용 방법
+
+### Installing via Smithery
+
+To install Korea Weather for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@ohhan777/korea_weather):
+
+```bash
+npx -y @smithery/cli install @ohhan777/korea_weather --client claude
+```
 
 1. [data.go.kr](https://www.data.go.kr/)에서 기상청 단기예보 API 활용 신청 후 API 키를 발급받습니다.  
 2. 환경설정 파일에 MCP 서버를 등록하고, API 키는 환경변수에 설정합니다.
