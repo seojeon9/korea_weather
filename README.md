@@ -9,7 +9,7 @@
 **Korea Weather MCP Server**는 기상청의 날씨 정보를 수집하여, MCP 프로토콜을 통해 Claude나 Cursor와 같은 MCP 클라이언트(Host)에 제공합니다.  
 이 서버는 기상 정보를 활용하는 다양한 응용 서비스에 쉽게 연동될 수 있습니다.
 
-![mcp_example.png](https://github.com/ohhan777/korea_weather/assets/mcp_example.png)
+![MCP Example](assets/mcp_example.png)
 
 ## 주요 기능
 
@@ -63,21 +63,3 @@
      }
    }
    ```
-### 프롬프트 예제
-```
->> 제주 국제 공항 현재 날씨를 알려줘.
->> 내일 오후에 서울 남대문에 놀러가려고 하는데 우산을 챙겨야할까?
->> 오늘 오후에 세차하기에 괜찮은 날씨일까?
-```
-
-## 의존성
-
-`pyproject.toml` 참고
-
-## 라이선스
-
-본 프로젝트는 내부 시험용으로 개발되었으며, 별도의 라이선스 규정 없이 자유롭게 배포 및 수정이 가능합니다.
-
-## 문의
-
-개발자: 한국항공우주연구원 오한 (ohhan@kari.re.kr)
