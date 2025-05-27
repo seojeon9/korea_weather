@@ -651,7 +651,6 @@ async def get_middle_term_forecast_from_api(region: str) -> str:
     try:
         async with httpx.AsyncClient() as client:
             response = await client.get(url, params=params)
-            print(response.text)
             if response.status_code != 200:
                 return f"API 요청 실패: {response.status_code}"
             data = response.json()
@@ -677,6 +676,43 @@ async def get_middle_term_forecast_from_api(region: str) -> str:
             return '\n'.join(result)
     except Exception as e:
         return f"예보 파싱 오류: {e}"
+
+async def get_dust_week_forecast_from_api(region: str) -> str:
+    """미세먼지 주간예보를 가져옵니다.
+
+    Args:
+        region (str): 지역 이름
+    """
+
+    api_key = urllib.parse.unquote(KOREA_WEATHER_API_KEY)
+    now = datetime.now()
+    current_hour = int(now.strftime('%H'))
+    if current_hour < 11:
+        now = now - timedelta(days=1)
+    base_date = now.strftime('%Y-%m-%d')
+
+    url = "https://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getMinuDustFrcstDspth"
+    params = {
+        'serviceKey': api_key,
+        'numOfRows': '100',
+        'pageNo': '1',
+        'returnType': 'JSON',
+        'searchDate': base_date
+    }
+
+    try:
+        async with httpx.AsyncClient() as client:
+            response = await client.get(url, params=params)
+            if response.status_code != 200:
+                return f"API 요청 실패: {response.status_code}"
+            data = response.json()
+            items = data.get('response', {}).get('body', {}).get('items', {}).get('item', [])
+            if not items:
+                return "예보 데이터가 없습니다."
+            return items
+    except Exception as e:
+        return f"예보 파싱 오류: {e}"
+
 
 @mcp.tool()
 async def get_nowcast_observation(lon: float, lat: float) -> str:
@@ -730,6 +766,19 @@ async def get_middle_term_forecast(region: str) -> str:
         str: 중기 육상 예보 정보 문자열
     """
     response = await get_middle_term_forecast_from_api(region)
+    return response
+
+@mcp.tool()
+async def get_week_dust_forecast(region: str) -> str:
+    """미세먼지 주간예보를 가져옵니다.
+
+    Args:
+        region (str): 지역 이름
+
+    Returns:
+        str: 미세먼지 주간예보 정보 문자열
+    """
+    response = await get_dust_week_forecast_from_api(region)
     return response
 
 
@@ -811,5 +860,6 @@ async def get_middle_term_forecast(region: str) -> str:
 if __name__ == "__main__":
     # mcp.run(transport="stdio")
 
-    result = asyncio.run(get_middle_term_forecast("서울"))
+    # result = asyncio.run(get_dust_week_forecast_from_api("서울"))
+    result = asyncio.run(get_short_term_forecast_from_api(127,35))
     print(result)
